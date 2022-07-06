@@ -202,7 +202,13 @@ if __name__ == '__main__':
 
         #os.system("rm -rf " + "_DEMO/" + video)
         
-        reset_folder('_DEMO/youtube_data/img') ###
+        # --- reset img folder ---
+        import shutil
+        path = '_DEMO/youtube_data/img'
+        if os.path.isdir(path):
+           shutil.rmtree(path)
+        os.makedirs(path,exist_ok=True)
+        # -----
         
         os.makedirs("_DEMO/" + video, exist_ok=True)    
         os.makedirs("_DEMO/" + video + "/img", exist_ok=True)    
@@ -213,8 +219,9 @@ if __name__ == '__main__':
         fe = FrameExtractor("_DEMO/" + video + "/youtube.mp4")
         print('Number of frames: ', fe.n_frames)
         
-        # ----
+        # --- get fps ---
         import cv2
+        video_file = '_DEMO/youtube_data/youtube.mp4'
         cap = cv2.VideoCapture(video_file)
         fps = cap.get(cv2.CAP_PROP_FPS)
         # ----
