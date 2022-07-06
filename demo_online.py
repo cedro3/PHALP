@@ -131,7 +131,7 @@ def test_tracker(opt, phalp_tracker: PHALP_tracker):
                     if(t__-opt.n_init in list_of_shots): cv2.rectangle(rendered_, (0,0), (f_size[0], f_size[1]), (0,0,255), 4)
                     if(t__-opt.n_init==0):
                         file_name      = 'out/' + opt.storage_folder + '/PHALP_' + str(opt.video_seq) + '_'+ str(opt.detection_type) + '.mp4'
-                        video_file     = cv2.VideoWriter(file_name, cv2.VideoWriter_fourcc(*'mp4v'), 30, frameSize=f_size)
+                        video_file     = cv2.VideoWriter(file_name, cv2.VideoWriter_fourcc(*'mp4v'), fps, frameSize=f_size)
                     video_file.write(rendered_)
                     del final_visuals_dic[frame_key]['frame']
                     for tkey_ in tmp_keys_:  del final_visuals_dic[frame_key][tkey_] 
@@ -200,16 +200,26 @@ if __name__ == '__main__':
         video_id = opt.youtube_id
         video    = "youtube_" + video_id
 
-        os.system("rm -rf " + "_DEMO/" + video)
+        #os.system("rm -rf " + "_DEMO/" + video)
+        
+        reset_folder('_DEMO/youtube_data/img') ###
+        
         os.makedirs("_DEMO/" + video, exist_ok=True)    
         os.makedirs("_DEMO/" + video + "/img", exist_ok=True)    
-        youtube_video = YouTube('https://www.youtube.com/watch?v=' + video_id)
-        print(f'Title: {youtube_video.title}')
-        print(f'Duration: {youtube_video.length / 60:.2f} minutes')
-        youtube_video.streams.get_by_itag(136).download(output_path = "_DEMO/" + video, filename="youtube.mp4")
+        #youtube_video = YouTube('https://www.youtube.com/watch?v=' + video_id)
+        #print(f'Title: {youtube_video.title}')
+        #print(f'Duration: {youtube_video.length / 60:.2f} minutes')
+        #youtube_video.streams.get_by_itag(136).download(output_path = "_DEMO/" + video, filename="youtube.mp4")
         fe = FrameExtractor("_DEMO/" + video + "/youtube.mp4")
         print('Number of frames: ', fe.n_frames)
-        fe.extract_frames(every_x_frame=1, img_name='', dest_path= "_DEMO/" + video + "/img/", start_frame=1100, end_frame=1300)
+        
+        # ----
+        import cv2
+        cap = cv2.VideoCapture(video_file)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        # ----
+        
+        fe.extract_frames(every_x_frame=1, img_name='', dest_path= "_DEMO/" + video + "/img/", start_frame=0, end_frame=fe.n_frames)
 
         opt.base_path       = '_DEMO/'
         opt.video_seq       = video
