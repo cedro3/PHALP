@@ -211,8 +211,8 @@ if __name__ == '__main__':
         os.makedirs(path,exist_ok=True)
         # -----
         
-        os.makedirs("_DEMO/" + video, exist_ok=True)    
-        os.makedirs("_DEMO/" + video + "/img", exist_ok=True)    
+        #os.makedirs("_DEMO/" + video, exist_ok=True)    
+        #os.makedirs("_DEMO/" + video + "/img", exist_ok=True)    
         #youtube_video = YouTube('https://www.youtube.com/watch?v=' + video_id)
         #print(f'Title: {youtube_video.title}')
         #print(f'Duration: {youtube_video.length / 60:.2f} minutes')
